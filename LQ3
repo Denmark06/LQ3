@@ -1,0 +1,56 @@
+const buses = [
+  { name: "Cubao", seats: Array(30).fill(false) }, // 30 seats per bus
+  { name: "Baguio", seats: Array(30).fill(false) },
+  { name: "Pasay", seats: Array(30).fill(false) },
+];
+
+// display available seats for a bus
+function displayAvailableSeats(busIndex) {
+  const bus = buses[busIndex];
+  let availableSeats = [];
+  for (let i = 0; i < bus.seats.length; i++) {
+    if (!bus.seats[i]) {
+      availableSeats.push(i + 1); // Seat numbers start from 1
+    }
+  }
+  console.log(`Available seats on ${bus.name} bus: ${availableSeats.join(", ")}`);
+}
+
+//reserve a seat
+function reserveSeat(busIndex, seatNumber, customerName) {
+  const bus = buses[busIndex];
+  const seatIndex = seatNumber - 1; // Adjust to 0-based index
+
+  if (seatIndex >= 0 && seatIndex < bus.seats.length && !bus.seats[seatIndex]) {
+    bus.seats[seatIndex] = true;
+    console.log(`${customerName} reserved seat ${seatNumber} on ${bus.name} bus.`);
+    return true;
+  } else {
+    console.log(`Seat ${seatNumber} is already booked or invalid.`);
+    return false;
+  }
+}
+
+// cancel a reservation
+function cancelReservation(busIndex, seatNumber) {
+  const bus = buses[busIndex];
+  const seatIndex = seatNumber - 1;
+
+  if (seatIndex >= 0 && seatIndex < bus.seats.length && bus.seats[seatIndex]) {
+    bus.seats[seatIndex] = false;
+    console.log(`Reservation for seat ${seatNumber} on ${bus.name} bus cancelled.`);
+    return true;
+  } else {
+    console.log(`Seat ${seatNumber} is not booked or invalid.`);
+    return false;
+  }
+}
+
+
+// usage:
+displayAvailableSeats(0); // Show available seats on Cubao bus
+reserveSeat(0, 5, "John Doe"); // Reserve seat 5
+displayAvailableSeats(0); // Show updated available seats
+cancelReservation(0, 5);  // Cancel reservation for seat 5
+displayAvailableSeats(0); // Show updated available seats
+
